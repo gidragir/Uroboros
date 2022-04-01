@@ -21,10 +21,16 @@ def about(request):
 def productMore(request):
     productId = request.GET.get('productId')
     productData = products.objects.filter(pk=productId).annotate(quantity=Sum('productmove__quantity')).get(pk=productId)
+    
+    if productData.quantity == None:
+        quantity = 0
+    else:
+        quantity = productData.quantity
+        
     json = {
        'name': productData.name,
        'description': productData.description,
-       'quantity': productData.quantity
+       'quantity': quantity     
     }
     
     return JsonResponse(json)
