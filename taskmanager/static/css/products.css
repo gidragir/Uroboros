@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product {
+  background-color: aquamarine;
+  border: 1px solid;
+  margin: 3%;
+  padding: 1%;
+  width: 15%;
+}

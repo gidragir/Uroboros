@@ -1,0 +1,52 @@
+{% extends 'main/main.html' %}
+{% load static %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+<link rel="stylesheet" href="{% static 'css/modals.css' %}">
+
+<script language="javascript" async>var URL_ProductMore = "{% url 'productMore' %}";</script>
+<script src="{% static 'js/products.js' %}" async></script>
+{% endblock %}
+
+{% block body %}
+
+<h1>Главная страница</h1>
+<div class="container">
+  {% for data in allproducts %}
+  <div class="product" productId={{data.id}}>
+    <h3>{{data.name}}</h3>
+    <h4>Количество {{data.quantity|default_if_none:0}}</h4>
+    <button onclick="openProduct(this)">More</button>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- The Modal -->
+<div id="productModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2 id="header"></h2>
+    </div>
+    <div class="modal-body">
+      <p id="description" replaceText="Описание: #text">></p>
+      <p id="quantity" replaceText="Количество: #text"></p>
+    </div>
+    <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+</script>
+{% endblock %}
