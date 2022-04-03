@@ -12,6 +12,7 @@ from .models import products, productmove
 def index(request):
     # allproducts = productmove.objects.values('product__name', 'product').annotate(quantity= Sum('quantity'))
     allproducts = products.objects.values('id', 'name').annotate(quantity=Sum('productmove__quantity'))
+    request.session['test1'] = 'test1'
     return render(request, 'main/index.html', {'allproducts': allproducts})
 
 

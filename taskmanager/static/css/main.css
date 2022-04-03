@@ -215,3 +215,8 @@ ul.social-footer2 li a {
   transition: all 250ms ease-in-out 0s;
 
 }
+
+.logo {
+  filter: invert(1);
+  /* margin-top: 15px; */
+}
