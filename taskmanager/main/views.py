@@ -1,3 +1,4 @@
+from .forms import regForm
 from itertools import product
 import json
 from django.http import HttpResponse, JsonResponse
@@ -12,26 +13,38 @@ from . import code
 
 
 def index(request):
-    # allproducts = productmove.objects.values('product__name', 'product').annotate(quantity= Sum('quantity'))
+    sessionData = code.functions.requestSerialization(request.session)
         
     allproducts = products.objects.values('id', 'name').annotate(quantity=Sum('productmove__quantity'))
-    return render(request, 'main/index.html', {'allproducts': allproducts})
+    sessionData['allproducts'] = allproducts
+
+    return render(request, 'main/index.html', sessionData)
 
 def about(request):
-    
     sessionData = code.functions.requestSerialization(request.session)
     
     return render(request, 'main/about.html', sessionData)
 
 def registration(request):
-    return render(request, 'main/registration.html')
+    
+    sessionData = code.functions.requestSerialization(request.session)
+    Form = regForm()
+
+    if request.method == "POST":
+        
+        print(request.POST.get("username") +
+              request.POST.get("first_name") + request.POST.get("last_name"))
+        
+        return render(request, 'main/index.html', sessionData)
+    else:
+        
+        sessionData['regForm'] = Form
+        return render(request, 'main/registration.html', sessionData)
 
 def productMore(request):
     productId = request.GET.get('productId')
     productData = products.objects.filter(pk=productId).annotate(quantity=Sum('productmove__quantity')).get(pk=productId)
-    
-    request.session['productId'] = productId
-    
+       
     if productData.quantity == None:
         quantity = 0
     else:

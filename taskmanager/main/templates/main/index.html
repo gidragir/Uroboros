@@ -23,7 +23,7 @@
   <div class="product" productId={{data.id}}>
     <h3>{{data.name}}</h3>
     <h4>Количество {{data.quantity|default_if_none:0}}</h4>
-    <button onclick="openProduct(this)">More</button>
+    <button onclick="openProduct(this)" class="btn btn-info">Узнать больше</button>
   </div>
   {% endfor %}
 </div>

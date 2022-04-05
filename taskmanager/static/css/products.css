@@ -11,4 +11,10 @@
   margin: 3%;
   padding: 1%;
   width: 15%;
+  border-radius: 15px;
 }
+
+.product:hover {
+  transform: scale(1.25);
+  transition: all .5s ease;
+} 
