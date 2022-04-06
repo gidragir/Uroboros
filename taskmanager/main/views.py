@@ -1,8 +1,9 @@
 from .forms import regForm
+from django.contrib.auth.forms import UserCreationForm
 from itertools import product
 import json
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.db import connection
 connection.queries
 from django.db.models import *
@@ -13,6 +14,10 @@ from . import code
 
 
 def index(request):
+    if request.GET.get('delete'):
+        del request.session['user_id']
+        del request.session['user_name']
+
     sessionData = code.functions.requestSerialization(request.session)
         
     allproducts = products.objects.values('id', 'name').annotate(quantity=Sum('productmove__quantity'))
@@ -21,6 +26,10 @@ def index(request):
     return render(request, 'main/index.html', sessionData)
 
 def about(request):
+    if request.GET.get('delete'):
+        del request.session['user_id']
+        del request.session['user_name']
+
     sessionData = code.functions.requestSerialization(request.session)
     
     return render(request, 'main/about.html', sessionData)
@@ -28,18 +37,20 @@ def about(request):
 def registration(request):
     
     sessionData = code.functions.requestSerialization(request.session)
-    Form = regForm()
-
     if request.method == "POST":
+
+        Form = regForm(request.POST)
         
-        print(request.POST.get("username") +
-              request.POST.get("first_name") + request.POST.get("last_name"))
-        
-        return render(request, 'main/index.html', sessionData)
+        if Form.is_valid():
+            user = Form.save()
+            request.session['user_id'] = user.id
+            request.session['user_name'] = user.username
+            return redirect('home')
     else:
+        Form = regForm()
         
-        sessionData['regForm'] = Form
-        return render(request, 'main/registration.html', sessionData)
+    sessionData['regForm'] = Form
+    return render(request, 'main/registration.html', sessionData)
 
 def productMore(request):
     productId = request.GET.get('productId')

@@ -193,7 +193,7 @@ ul.social-footer2 li a {
   text-align: center;
 }
 
-.btn {
+/* .btn {
   background-color: #ff8d1e;
   color: #fff;
 }
@@ -214,9 +214,12 @@ ul.social-footer2 li a {
   -o-transition: all 250ms ease-in-out 0s;
   transition: all 250ms ease-in-out 0s;
 
-}
+} */
 
 .logo {
   filter: invert(1);
-  /* margin-top: 15px; */
+}
+
+.dropdown-menu{
+  min-width: 0;
 }

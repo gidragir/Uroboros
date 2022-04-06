@@ -16,3 +16,18 @@ function openSignInForm(btn) {
     }
   };
 }
+
+function userExit() {
+
+  $.ajax({
+
+    url: URL_Current,
+    method: "GET",
+    data: {
+      "delete": 1
+    },
+    success: function () {
+      location.reload();
+    }
+  });
+}

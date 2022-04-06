@@ -12,9 +12,13 @@
   padding: 1%;
   width: 15%;
   border-radius: 15px;
+  transition: all .5s ease;
 }
 
 .product:hover {
-  transform: scale(1.25);
-  transition: all .5s ease;
+  transform: scale(1.15);
 } 
+
+.product::after {
+  transform: scale(1);
+}
