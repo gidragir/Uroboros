@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Регистрация
+Авторизация
 {% endblock %}
 
 {% block head %}
@@ -15,12 +15,26 @@
 <div class="col-12 col-lg-9 col-xl-9">
   <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
     <div class="card-body p-4 p-md-5">
-      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Регистрация</h3>
+      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Авторизация</h3>
       <form method="POST">
         {% csrf_token %}
-        {{regForm.as_p}}
+        {{authoForm.as_p}}
+
+        <ul>
+          {% if errorMessages.loginError %}
+          <li>
+            {{errorMessages.loginError}}
+          </li>
+          {% endif %}
+          {% if errorMessages.passwordError %}
+          <li>
+            {{errorMessages.passwordError}}
+          </li>
+          {% endif %}
+        </ul>
+
         <div class="mt-4 pt-2">
-          <input class="btn btn-primary btn-lg" type="submit" name="submit" value="Регистрация">
+          <input class="btn btn-primary btn-lg" type="submit" name="submit" value="Войти">
         </div>
 
       </form>

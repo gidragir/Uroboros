@@ -1,5 +1,7 @@
+from datetime import datetime
+from distutils.log import error
+from django.contrib.auth import authenticate
 from .forms import *
-from django.contrib.auth.forms import UserCreationForm
 from itertools import product
 import json
 from django.http import HttpResponse, JsonResponse
@@ -57,22 +59,35 @@ def registration(request):
     return render(request, 'main/registration.html', sessionData)
 
 def authorization(request):
-  
     sessionData = code.functions.requestSerialization(request.session)
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    
+    errorMessages = {}
+    sessionData['errorMessages'] = errorMessages
+    
     if request.method == "POST":
 
-        Form = regForm(request.POST)
-
-        if Form.is_valid():
-            user = Form.save()
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            user.last_login = datetime.now()
+            user.save()
             request.session['user_id'] = user.id
             request.session['user_name'] = user.username
+            
             return redirect('home')
-    else:
-        Form = regForm()
-
-    sessionData['regForm'] = Form
-    return render(request, 'main/registration.html', sessionData)
+        else:     
+            usernameCheck = User.objects.filter(username=username)
+            if usernameCheck:
+                passwordCheck = usernameCheck.filter(password=username)
+                if not passwordCheck:
+                    errorMessages['passwordError'] = "Не правильный пароль"
+            else:
+                errorMessages['loginError'] = "Не правильный логин"
+            sessionData['errorMessages'] = errorMessages
+    Form = authoForm()
+    sessionData['authoForm'] = Form
+    return render(request, 'main/authorization.html', sessionData)
 
 def productMore(request):
     productId = request.GET.get('productId')

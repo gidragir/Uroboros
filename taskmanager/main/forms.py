@@ -74,23 +74,6 @@ class authoForm(AuthenticationForm):
         widget=forms.PasswordInput(
             attrs={"autocomplete": "current-password", 'class': 'form-control form-control-lg', 'type': 'password'}),
     )
-    
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        
-        if username:
-            raise ValidationError("Не веден логин")
-        
-        return username
-
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        
-        if password:
-            raise ValidationError("Не введен пароль")
-        
-        return password
-    
     class Meta:
         model = User
         fields= ('username','password')
