@@ -1,4 +1,4 @@
-from .forms import regForm
+from .forms import *
 from django.contrib.auth.forms import UserCreationForm
 from itertools import product
 import json
@@ -22,6 +22,8 @@ def index(request):
         
     allproducts = products.objects.values('id', 'name').annotate(quantity=Sum('productmove__quantity'))
     sessionData['allproducts'] = allproducts
+    Form = authoForm()
+    sessionData['authoForm'] = Form
 
     return render(request, 'main/index.html', sessionData)
 
@@ -31,6 +33,8 @@ def about(request):
         del request.session['user_name']
 
     sessionData = code.functions.requestSerialization(request.session)
+    Form = authoForm()
+    sessionData['authoForm'] = Form
     
     return render(request, 'main/about.html', sessionData)
 
@@ -49,6 +53,24 @@ def registration(request):
     else:
         Form = regForm()
         
+    sessionData['regForm'] = Form
+    return render(request, 'main/registration.html', sessionData)
+
+def authorization(request):
+  
+    sessionData = code.functions.requestSerialization(request.session)
+    if request.method == "POST":
+
+        Form = regForm(request.POST)
+
+        if Form.is_valid():
+            user = Form.save()
+            request.session['user_id'] = user.id
+            request.session['user_name'] = user.username
+            return redirect('home')
+    else:
+        Form = regForm()
+
     sessionData['regForm'] = Form
     return render(request, 'main/registration.html', sessionData)
 

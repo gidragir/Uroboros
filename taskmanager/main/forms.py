@@ -1,8 +1,7 @@
 from dataclasses import fields
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.forms.fields import EmailField
 
@@ -64,3 +63,34 @@ class regForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username','first_name','last_name','password1','password2','email')
+
+
+class authoForm(AuthenticationForm):
+    username = UsernameField(widget=forms.TextInput(
+        attrs={"autofocus": True, 'class': 'form-control form-control-lg'}))
+    password = forms.CharField(
+        label="Password",
+        strip=False,
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "current-password", 'class': 'form-control form-control-lg', 'type': 'password'}),
+    )
+    
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        
+        if username:
+            raise ValidationError("Не веден логин")
+        
+        return username
+
+    def clean_password(self):
+        password = self.cleaned_data['password']
+        
+        if password:
+            raise ValidationError("Не введен пароль")
+        
+        return password
+    
+    class Meta:
+        model = User
+        fields= ('username','password')
