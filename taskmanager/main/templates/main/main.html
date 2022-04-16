@@ -78,6 +78,7 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#">Профиль</a></li>
+              <li><a class="dropdown-item" href={% url 'backet' %}>Корзина</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -104,60 +105,7 @@
     </div>
   </nav>
 
-  <!-- <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
-      <span class="fs-4">Uroboros</span>
-    </a>
-
-    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-      <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'home' %}">Главная</a>
-      <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'about' %}">О нас</a>
-    </nav>
-  </div> -->
-
   {% block body %} {% endblock body %}
-
-  <!-- Модальное окно товара начало -->
-  <div id="loginForm" class="modal">
-    <div class="modal-content modal-log">
-      <div class="modal-header">
-        <span class="close">&times;</span>
-        <h2 id="header">Авторизация</h2>
-      </div>
-          <div class="card-body p-4 p-md-5">
-            <form method="POST">
-              {% csrf_token %}
-              {{authoForm.as_p}}
-              <div class="modal-group">
-                <div class="btn-group-sm modal-menu modal-element">
-                  <button type="submit" class="btn btn-primary btn-lg">Войти</button>
-                  <button type="submit" class="btn btn-primary btn-lg"
-                    onclick="window.location.href = '{% url 'registration' %}';">Зарегистрироваться</button>
-                </div>
-              </div>
-            </form>
-          </div>
-      {% comment %} <form class="modal-body" method="GET">
-        <div class="modal-group">
-          <label for="username" class="modal-element">Пользователь</label>
-          <input type="text" name="username" id="" class="modal-element">
-        </div>
-        <div class="modal-group">
-          <label for="password" class="modal-element">Пароль</label>
-          <input type="text" name="password" id="" class="modal-element">
-        </div>
-        <div class="modal-group">
-          <div class="btn-group-sm modal-menu modal-element">
-            <button type="submit" class="btn btn-outline-dark">Войти</button>
-            <button type="submit" class="btn btn-outline-dark"
-              onclick="window.location.href = '{% url 'registration' %}';">Зарегистрироваться</button>
-          </div>
-        </div>
-      </form> {% endcomment %}
-    </div>
-  </div>
-  <!-- Модальное окно товара конец -->
-
 
   <footer id="footer" class="footer-1">
     <div class="main-footer widgets-dark typo-light">

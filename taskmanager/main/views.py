@@ -10,7 +10,7 @@ from django.db import connection
 connection.queries
 from django.db.models import *
 from .models import products, productmove
-from . import code
+from .code import functions
 import requests
 import base64
 
@@ -18,14 +18,14 @@ import base64
 
 
 def index(request):
+    
+    request.session.set_expiry(0)
+    
     if request.GET.get('delete'):
         del request.session['user_id']
         del request.session['user_name']
-
-    # if request.method == "POST":
-    #     sellProduct()            
     
-    sessionData = code.functions.requestSerialization(request.session)
+    sessionData = functions.requestSerialization(request.session)
         
     allproducts = products.objects.values('id', 'name').annotate(quantity=Sum('productmove__quantity'))
     sessionData['allproducts'] = allproducts
@@ -39,7 +39,7 @@ def about(request):
         del request.session['user_id']
         del request.session['user_name']
 
-    sessionData = code.functions.requestSerialization(request.session)
+    sessionData = functions.requestSerialization(request.session)
     Form = authoForm()
     sessionData['authoForm'] = Form
     
@@ -47,7 +47,7 @@ def about(request):
 
 def registration(request):
     
-    sessionData = code.functions.requestSerialization(request.session)
+    sessionData = functions.requestSerialization(request.session)
     if request.method == "POST":
 
         Form = regForm(request.POST)
@@ -64,7 +64,7 @@ def registration(request):
     return render(request, 'main/registration.html', sessionData)
 
 def authorization(request):
-    sessionData = code.functions.requestSerialization(request.session)
+    sessionData = functions.requestSerialization(request.session)
     username = request.POST.get('username')
     password = request.POST.get('password')
     
@@ -94,6 +94,17 @@ def authorization(request):
     sessionData['authoForm'] = Form
     return render(request, 'main/authorization.html', sessionData)
 
+def backet(request):
+
+    if request.GET.get('delete'):
+        del request.session['user_id']
+        del request.session['user_name']
+        
+    sessionData = functions.requestSerialization(request.session)
+
+    return render(request, 'backet/index.html', sessionData)
+
+
 def productMore(request):
     productId = request.GET.get('productId')
     productData = products.objects.filter(pk=productId).annotate(quantity=Sum('productmove__quantity')).get(pk=productId)
@@ -110,7 +121,6 @@ def productMore(request):
     }
     
     return JsonResponse(json)
-
 
 def sellProduct(request):
     
