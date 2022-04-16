@@ -4,25 +4,28 @@ function replaceText(element, text) {
 }
 
 function openProduct(btn) {
-  
+
   var modal = document.getElementById("productModal");
 
   var productId = Number(btn.parentNode.getAttribute("productId"));
 
-  $.ajax({ 
+  $.ajax({
 
-    url: URL_ProductMore, 
-       method: "GET", 
-      data: {"productId": productId},
-       success: function(data) {
-    
-        $('#header').text(data.name);
-        replaceText('description', data.description);
-        replaceText('quantity', data.quantity);
-     } 
-    });
+    url: URL_ProductMore,
+    method: "GET",
+    data: {
+      "productId": productId
+    },
+    success: function (data) {
 
-  modal.style.display = "block";
+      $('#header').text(data.name);
+      replaceText('description', data.description);
+      replaceText('quantity', data.quantity);
+      document.getElementById("modalProductId").setAttribute("value", productId)
+
+      modal.style.display = "block";
+    }
+  });
 
   var span = document.getElementsByClassName("close")[0];
 
@@ -39,4 +42,18 @@ function openProduct(btn) {
 
 function addToBacket(btn) {
   var productId = Number(btn.parentNode.getAttribute("productId"));
+
+  $.ajax({
+    type: "POST",
+    url: URL_backet,
+    data: {
+      "productId": productId,
+      "csrfmiddlewaretoken": csrf_token
+    },
+    success: function (data) {
+
+      var modal = document.getElementById("productModal");
+      modal.style.display = "none";
+    }
+  });
 }

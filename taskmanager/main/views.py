@@ -1,5 +1,6 @@
 from datetime import datetime
 from distutils.log import error
+import re
 from django.contrib.auth import authenticate
 from .forms import *
 from itertools import product
@@ -9,7 +10,7 @@ from django.shortcuts import redirect, render
 from django.db import connection
 connection.queries
 from django.db.models import *
-from .models import products, productmove
+from .models import products, order
 from .code import functions
 import requests
 import base64
@@ -24,6 +25,9 @@ def index(request):
     if request.GET.get('delete'):
         del request.session['user_id']
         del request.session['user_name']
+    
+    if request.POST.get('productId'):
+        addBacket(request)
     
     sessionData = functions.requestSerialization(request.session)
         
@@ -95,15 +99,26 @@ def authorization(request):
     return render(request, 'main/authorization.html', sessionData)
 
 def backet(request):
-
-    if request.GET.get('delete'):
-        del request.session['user_id']
-        del request.session['user_name']
-        
+  
     sessionData = functions.requestSerialization(request.session)
+    user = User.objects.get(pk=sessionData['user_id'])
+    sessionData['products'] = order.objects.filter(user=user)
 
     return render(request, 'backet/index.html', sessionData)
 
+
+def addBacket(request):
+  
+    user_id = int(request.session['user_id'])
+    productId = request.POST.get('productId')
+  
+    newOrder = orderForm()
+    newOrder.user = User.objects.get(pk=user_id)
+    newOrder.product = products.objects.get(pk=productId)
+    newOrder.quantity = 1
+    newOrder.save()
+        
+    return HttpResponse("<h1>" + str(productId) + "</h1>")
 
 def productMore(request):
     productId = request.GET.get('productId')

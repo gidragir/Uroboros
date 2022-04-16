@@ -12,4 +12,10 @@
 
 <h1>Корзина товаров</h1>
 
+{% for data in products %}
+<h1>{{data.product}} {{data.quantity}}</h1>
+
+</div>
+{% endfor %}
+
 {% endblock  %}

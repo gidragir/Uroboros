@@ -3,7 +3,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.forms.fields import EmailField
+
+from .models import order, products
 
 
 class regForm(UserCreationForm):
@@ -63,8 +64,6 @@ class regForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username','first_name','last_name','password1','password2','email')
-
-
 class authoForm(AuthenticationForm):
     username = UsernameField(widget=forms.TextInput(
         attrs={"autofocus": True, 'class': 'form-control form-control-lg'}))
@@ -76,4 +75,14 @@ class authoForm(AuthenticationForm):
     )
     class Meta:
         model = User
-        fields= ('username','password')
+        fields= ('username','password')    
+class orderForm(forms.Form):
+    user = forms.ModelChoiceField(queryset=User.objects.all())
+    product = forms.ModelChoiceField(queryset=products.objects.all())
+    quantity = forms.IntegerField()
+    
+    def save(self):
+        order.objects.create(user=self.user,
+                             product=self.product,
+                             quantity=self.quantity
+                             )

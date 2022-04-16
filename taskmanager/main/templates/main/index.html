@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="{% static 'css/modals.css' %}">
 
 <script language="javascript" async>var URL_ProductMore = "{% url 'productMore' %}";</script>
+<script language="javascript" async>
+  var URL_backet = "{% url 'addBacket' %}";
+</script>
 <script src="{% static 'js/products.js' %}" async></script>
 
 <script>
@@ -36,18 +39,17 @@
   <div class="product" productId={{data.id}}>
     <h3>{{data.name}}</h3>
     <h4>Количество {{data.quantity|default_if_none:0}}</h4>
-    <button onclick="openProduct(this)" class="btn btn-info">Узнать больше</button>
-    {% if 'user_id' %}
-    <button onclick="addToBacket(this)" class="btn btn-info">Добавить в корзину</button>
-    {% endif %}
-
+    <button onclick="openProduct(this)" class="btn-product btn-info">Узнать больше</button>
+    
   </div>
   {% endfor %}
 </div>
 <!-- Каталог товаров конец -->
 
 <!-- Модальное окно товара начало -->
-<div id="productModal" class="modal">
+<form id="productModal" class="modal" method="POST">
+  {% csrf_token %}
+  <input id="modalProductId" type="hidden" name="productId" value=0>
   <div class="modal-content">
     <div class="modal-header">
       <span class="close">&times;</span>
@@ -58,11 +60,13 @@
       <p id="description" replaceText="#text">></p>
       <p id="quantity" replaceText="Количество товара: #text"></p>
     </div>
-    <div class="modal-footer">
-      <h3>Modal Footer</h3>
+    <div class="modal-footer" productId=0>
+      {% if 'user_id' %}
+      <button class="btn-product btn btn-info" type="submit">Добавить в корзину</button>
+      {% endif %} 
     </div>
   </div>
-</div>
+</form>
 <!-- Модальное окно товара конец -->
 
 {% endblock %}
