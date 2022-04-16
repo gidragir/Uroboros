@@ -36,3 +36,7 @@ function openProduct(btn) {
     }
   };
 }
+
+function addToBacket(btn) {
+  var productId = Number(btn.parentNode.getAttribute("productId"));
+}
