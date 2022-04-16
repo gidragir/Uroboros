@@ -11,6 +11,19 @@
 
 <script language="javascript" async>var URL_ProductMore = "{% url 'productMore' %}";</script>
 <script src="{% static 'js/products.js' %}" async></script>
+
+<script>
+  function test(){
+    $.ajax({
+
+    url: "{% url 'sellProduct' %}",
+    method: "GET",
+    data: {},
+    success: function () {
+    }
+    });
+  }
+</script>
 {% endblock %}
 
 {% block body %}

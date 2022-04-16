@@ -11,6 +11,8 @@ connection.queries
 from django.db.models import *
 from .models import products, productmove
 from . import code
+import requests
+import base64
 
 # Create your views here.
 
@@ -20,6 +22,9 @@ def index(request):
         del request.session['user_id']
         del request.session['user_name']
 
+    # if request.method == "POST":
+    #     sellProduct()            
+    
     sessionData = code.functions.requestSerialization(request.session)
         
     allproducts = products.objects.values('id', 'name').annotate(quantity=Sum('productmove__quantity'))
@@ -105,3 +110,15 @@ def productMore(request):
     }
     
     return JsonResponse(json)
+
+
+def sellProduct(request):
+    
+    strBytes = str(base64.b64encode(
+        'Администратор:147596'.encode()))[2:]
+    Authorization = 'Basic ' + strBytes
+    headers = {'Authorization': Authorization}
+    
+    res = requests.post('http://localhost/Django/hs/base/sell', headers=headers)
+    
+    return HttpResponse(res)
