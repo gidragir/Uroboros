@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 class products(models.Model):
     name = models.TextField(max_length=150)
     description = models.TextField(max_length=1024, default='SOME STRING')
+    price = models.FloatField()
+    picture = models.TextField()
 
     def __str__(self):
         return self.name

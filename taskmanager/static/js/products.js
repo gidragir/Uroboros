@@ -21,7 +21,9 @@ function openProduct(btn) {
       $('#header').text(data.name);
       replaceText('description', data.description);
       replaceText('quantity', data.quantity);
+      replaceText('price', data.price);
       document.getElementById("modalProductId").setAttribute("value", productId)
+      document.getElementById("product-modal-img").setAttribute("src", "data:image/jpeg; base64, " + data.picture)
 
       modal.style.display = "block";
     }

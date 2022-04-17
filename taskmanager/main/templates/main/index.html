@@ -9,24 +9,15 @@
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
 <link rel="stylesheet" href="{% static 'css/modals.css' %}">
 
-<script language="javascript" async>var URL_ProductMore = "{% url 'productMore' %}";</script>
+<script language="javascript" async>
+  var URL_ProductMore = "{% url 'productMore' %}";
+
+</script>
 <script language="javascript" async>
   var URL_backet = "{% url 'addBacket' %}";
+
 </script>
 <script src="{% static 'js/products.js' %}" async></script>
-
-<script>
-  function test(){
-    $.ajax({
-
-    url: "{% url 'sellProduct' %}",
-    method: "GET",
-    data: {},
-    success: function () {
-    }
-    });
-  }
-</script>
 {% endblock %}
 
 {% block body %}
@@ -37,10 +28,11 @@
 <div class="container">
   {% for data in allproducts %}
   <div class="product" productId={{data.id}}>
+    <img src="data:image/jpeg; base64, {{data.picture}}" class="img-product">
     <h3>{{data.name}}</h3>
-    <h4>Количество {{data.quantity|default_if_none:0}}</h4>
+    <h4>Цена {{data.price}}</h4>
     <button onclick="openProduct(this)" class="btn-product btn-info">Узнать больше</button>
-    
+
   </div>
   {% endfor %}
 </div>
@@ -55,15 +47,23 @@
       <span class="close">&times;</span>
       <h2 id="header"></h2>
     </div>
-    <div class="modal-body">
-      <h3>Описание товара</h3>
-      <p id="description" replaceText="#text">></p>
-      <p id="quantity" replaceText="Количество товара: #text"></p>
+    <div class="row">
+      <div class="col-sm">
+        <img id="product-modal-img" src="">
+      </div>
+      <div class="col-sm">
+        <div class="modal-body">
+          <h3>Описание товара</h3>
+          <p id="description" replaceText="#text">></p>
+          <p id="price" replaceText="Цена товара: #text"></p>
+          <p id="quantity" replaceText="Количество товара: #text"></p>
+        </div>
+      </div>
     </div>
     <div class="modal-footer" productId=0>
       {% if 'user_id' %}
       <button class="btn-product btn btn-info" type="submit">Добавить в корзину</button>
-      {% endif %} 
+      {% endif %}
     </div>
   </div>
 </form>

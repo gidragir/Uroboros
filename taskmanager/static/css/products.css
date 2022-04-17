@@ -25,10 +25,21 @@
   transform: scale(1);
 }
 
-.btn-product{
+.btn-product {
   max-width: 170px;
   min-width: 150px;
   padding-left: 5px;
   padding-right: 5px;
   margin-top: 10px;
+}
+
+.img-product {
+  max-width: 155px;
+  min-width: auto;
+}
+
+#product-modal-img {
+  max-width: 250px;
+  margin: 15px;
+  min-width: auto;
 }

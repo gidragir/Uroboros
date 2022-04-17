@@ -31,8 +31,9 @@ def index(request):
     
     sessionData = functions.requestSerialization(request.session)
         
-    allproducts = products.objects.values('id', 'name').annotate(quantity=Sum('productmove__quantity'))
+    allproducts = products.objects.values('id', 'name', 'price', 'picture')   
     sessionData['allproducts'] = allproducts
+    
     Form = authoForm()
     sessionData['authoForm'] = Form
 
@@ -102,7 +103,9 @@ def backet(request):
   
     sessionData = functions.requestSerialization(request.session)
     user = User.objects.get(pk=sessionData['user_id'])
-    sessionData['products'] = order.objects.filter(user=user)
+    products = order.objects.filter(user=user).values(
+        'id', 'product', 'product__name', 'quantity', 'product__price')
+    sessionData['products'] = products
 
     return render(request, 'backet/index.html', sessionData)
 
@@ -132,7 +135,9 @@ def productMore(request):
     json = {
        'name': productData.name,
        'description': productData.description,
-       'quantity': quantity     
+       'quantity': quantity,
+       'price': productData.price,
+       'picture': productData.picture
     }
     
     return JsonResponse(json)
