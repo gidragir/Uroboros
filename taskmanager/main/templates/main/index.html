@@ -9,14 +9,6 @@
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
 <link rel="stylesheet" href="{% static 'css/modals.css' %}">
 
-<script language="javascript" async>
-  var URL_ProductMore = "{% url 'productMore' %}";
-
-</script>
-<script language="javascript" async>
-  var URL_backet = "{% url 'addBacket' %}";
-
-</script>
 <script src="{% static 'js/products.js' %}" async></script>
 {% endblock %}
 
@@ -39,9 +31,8 @@
 <!-- Каталог товаров конец -->
 
 <!-- Модальное окно товара начало -->
-<form id="productModal" class="modal" method="POST">
+<div id="productModal" class="modal" method="POST">
   {% csrf_token %}
-  <input id="modalProductId" type="hidden" name="productId" value=0>
   <div class="modal-content">
     <div class="modal-header">
       <span class="close">&times;</span>
@@ -60,13 +51,15 @@
         </div>
       </div>
     </div>
-    <div class="modal-footer" productId=0>
-      {% if 'user_id' %}
-      <button class="btn-product btn btn-info" type="submit">Добавить в корзину</button>
+    <div class="modal-footer">
+      {% if user_id %}
+      <input id="modalProductId" type="hidden" name="modalProductId" value=0>
+      <input id="modalQuantity" type="hidden" name="modalQuantity" value=1>
+      <button class="btn-product btn btn-info" onclick="addToBacket(this)">Добавить в корзину</button>
       {% endif %}
     </div>
   </div>
-</form>
+</div>
 <!-- Модальное окно товара конец -->
 
 {% endblock %}

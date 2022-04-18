@@ -20,8 +20,10 @@
   <link rel="stylesheet" href="{% static 'css/modals.css' %}" />
   <script language="javascript" async>
     var URL_Current = "{{ request.path }}";
+    const token = "{{ csrf_token }}";
   </script>
   <script src="{% static 'js/main.js' %}" async></script>
+  <script src="{% static 'js/urls.json' %}" async></script>
 
   {% block head %} {% endblock head %}
 </head>

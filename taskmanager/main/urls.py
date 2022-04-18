@@ -6,8 +6,9 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('registration', views.registration, name='registration'),
     path('authorization', views.authorization, name='authorization'),
-    path('backet', views.backet, name='backet'),
-    path('addBacket', views.addBacket, name='addBacket'),
-    path('productMore', views.productMore, name='productMore'),
+    path('backet', views.backetOfUser, name='backet'),
+    path('addBacket', views.addBacket.as_view(), name='addBacket'),
+    path('updateBacket', views.updateBacket.as_view(), name='updateBacket'),
+    path('productMore', views.productMore.as_view(), name='productMore'),
     path('sellProduct', views.sellProduct, name='sellProduct')
 ]

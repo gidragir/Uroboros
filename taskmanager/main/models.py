@@ -30,3 +30,12 @@ class order(models.Model):
     
     def __str__(self):
         return "Order of " + str(self.user) + " by " + str(self.date)
+
+class backet(models.Model):
+    user = models.ForeignKey(User, on_delete=models.RESTRICT)
+    product = models.ForeignKey(products, on_delete=models.RESTRICT)
+    quantity = models.IntegerField()
+    date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Backet of " + str(self.user) + " by " + str(self.date)

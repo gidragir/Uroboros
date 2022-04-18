@@ -1,21 +1,31 @@
+let urls;
+fetch('/static/js/urls.json').then(response => response.json()).then(data => urls = data);
+
 function quantityUp(btn) {
-  btn.parentNode.querySelector('input[type=number]').stepUp()
+  btn.parentNode.querySelector('input[type=number]').stepUp();
+  updateBacket(btn, 1);
 }
 
 function quantityDown(btn) {
-  btn.parentNode.querySelector('input[type=number]').stepDown()
+  btn.parentNode.querySelector('input[type=number]').stepDown();
+  updateBacket(btn, -1);
 }
 
-function updateBacket() {
+function updateBacket(btn, quantity) {
+
+  productId = btn.parentNode.querySelector('input[name=productId]').value;
+
   $.ajax({
 
-    url: URL_Current,
-    method: "POST",
+    url: urls['URL_updateBacket'],
+    type: "POST",
     data: {
-      "delete": 1
+      "productId": productId,
+      "quantity": quantity,
+      "update": true,
+      "csrfmiddlewaretoken": token
     },
     success: function () {
-      location.reload();
     }
   });
 }

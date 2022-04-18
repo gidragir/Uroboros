@@ -1,3 +1,6 @@
+let urls;
+fetch('/static/js/urls.json').then(response => response.json()).then(data => urls = data);
+
 function replaceText(element, text) {
   var replaceText = document.getElementById(element).getAttribute("replaceText");
   $('#' + element).text(replaceText.replace("#text", text));
@@ -11,7 +14,7 @@ function openProduct(btn) {
 
   $.ajax({
 
-    url: URL_ProductMore,
+    url: urls['URL_ProductMore'],
     method: "GET",
     data: {
       "productId": productId
@@ -43,14 +46,16 @@ function openProduct(btn) {
 }
 
 function addToBacket(btn) {
-  var productId = Number(btn.parentNode.getAttribute("productId"));
+  var productId = btn.parentNode.querySelector('input[name=modalProductId]').value;
+  var quantity = btn.parentNode.querySelector('input[name=modalQuantity]').value;
 
   $.ajax({
     type: "POST",
-    url: URL_backet,
+    url: urls['URL_addBacket'],
     data: {
       "productId": productId,
-      "csrfmiddlewaretoken": csrf_token
+      "quantity": quantity,
+      "csrfmiddlewaretoken": token
     },
     success: function (data) {
 

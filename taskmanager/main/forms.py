@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from .models import order, products
+from .models import backet, products
 
 
 class regForm(UserCreationForm):
@@ -76,13 +76,13 @@ class authoForm(AuthenticationForm):
     class Meta:
         model = User
         fields= ('username','password')    
-class orderForm(forms.Form):
+class backetForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
     product = forms.ModelChoiceField(queryset=products.objects.all())
     quantity = forms.IntegerField()
     
     def save(self):
-        order.objects.create(user=self.user,
+        backet.objects.create(user=self.user,
                              product=self.product,
                              quantity=self.quantity
                              )
