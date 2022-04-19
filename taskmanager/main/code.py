@@ -15,7 +15,7 @@ class functions:
 
     return serialization
   
-  def updateBacket(self, request):
+  def updateBacket(request):
     user_id = request.session['user_id']
     product_id = request.POST.get('productId')
     quantity = request.POST.get('quantity')
@@ -33,3 +33,11 @@ class functions:
         return HttpResponse(200)
     else:
         return result
+      
+  def makeOrder(request):
+    
+    backet_ids = request.POST.getlist("backet_ids[]")
+    for backet_id in backet_ids:
+      print(backet_id)
+    
+    return HttpResponse(200)

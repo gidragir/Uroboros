@@ -1,6 +1,3 @@
-let urls;
-fetch('/static/js/urls.json').then(response => response.json()).then(data => urls = data);
-
 function replaceText(element, text) {
   var replaceText = document.getElementById(element).getAttribute("replaceText");
   $('#' + element).text(replaceText.replace("#text", text));
@@ -43,25 +40,4 @@ function openProduct(btn) {
       modal.style.display = "none";
     }
   };
-}
-
-function addToBacket(btn) {
-  var productId = btn.parentNode.querySelector('input[name=modalProductId]').value;
-  var quantity = btn.parentNode.querySelector('input[name=modalQuantity]').value;
-
-  $.ajax({
-    type: "POST",
-    url: urls['URL_backetOperation'],
-    data: {
-      "productId": productId,
-      "quantity": quantity,
-      "csrfmiddlewaretoken": token,
-      "operation": "add"
-    },
-    success: function (data) {
-
-      var modal = document.getElementById("productModal");
-      modal.style.display = "none";
-    }
-  });
 }

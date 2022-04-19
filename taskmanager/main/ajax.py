@@ -10,7 +10,7 @@ class backetOperation(View):
     
     def post(self, request): 
         operation = request.POST.get('operation')
-        
+
         if operation == "add":
             if not functions.updateBacket(self, request):
                 user_id = int(request.session['user_id'])
@@ -23,11 +23,16 @@ class backetOperation(View):
                 newOrder.save()
                 
         elif operation == "update":
-            functions.updateBacket(self, request)
+            functions.updateBacket(request)
+        
+        elif operation == "makeOrder":
+            functions.makeOrder(request)
             
         return HttpResponse(200)
     
-    def delete(self, request):
+    def delete(self, request, backet_id):
+        
+        backet.objects.filter(pk=backet_id).delete()
         
         return HttpResponse(200)
 class productMore(View):

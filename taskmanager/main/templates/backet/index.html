@@ -58,7 +58,8 @@
                 <h5 class="mb-0">{{data.product__price}}</h5>
               </div>
               <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                <a class="text-danger" onclick=><i class="fas fa-trash fa-lg"></i></a>
+                <input type="hidden" name="backet_id" value="{{data.id}}">
+                <a class="text-danger" onclick="deleteBacket(this)"><i class="fas fa-trash fa-lg"></i></a>
               </div>
             </div>
           </div>
@@ -78,7 +79,7 @@
 
         <div class="card">
           <div class="card-body">
-            <button type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+            <button type="button" class="btn btn-warning btn-block btn-lg" onclick="makeOrder()">Proceed to Pay</button>
           </div>
         </div>
 
