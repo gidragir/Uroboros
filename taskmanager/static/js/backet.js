@@ -17,13 +17,14 @@ function updateBacket(btn, quantity) {
 
   $.ajax({
 
-    url: urls['URL_updateBacket'],
+    url: urls['URL_backetOperation'],
     type: "POST",
     data: {
       "productId": productId,
       "quantity": quantity,
       "update": true,
-      "csrfmiddlewaretoken": token
+      "csrfmiddlewaretoken": token,
+      "operation": "update"
     },
     success: function () {
     }

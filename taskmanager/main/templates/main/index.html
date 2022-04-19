@@ -52,9 +52,9 @@
       </div>
     </div>
     <div class="modal-footer">
-      {% if user_id %}
       <input id="modalProductId" type="hidden" name="modalProductId" value=0>
       <input id="modalQuantity" type="hidden" name="modalQuantity" value=1>
+      {% if user_id %}
       <button class="btn-product btn btn-info" onclick="addToBacket(this)">Добавить в корзину</button>
       {% endif %}
     </div>

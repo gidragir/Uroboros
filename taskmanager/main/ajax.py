@@ -3,48 +3,33 @@ from django.db.models import *
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from .forms import *
+from .code import functions
 
 
-class addBacket(View):
+class backetOperation(View):
+    
+    def post(self, request): 
+        operation = request.POST.get('operation')
+        
+        if operation == "add":
+            if not functions.updateBacket(self, request):
+                user_id = int(request.session['user_id'])
+                product_id = request.POST.get('productId')
 
-    def post(self, request):
-        if not updateBacket().post(request):
-            user_id = int(request.session['user_id'])
-            product_id = request.POST.get('productId')
-
-            newOrder = backetForm()
-            newOrder.user = User.objects.get(pk=user_id)
-            newOrder.product = products.objects.get(pk=product_id)
-            newOrder.quantity = 1
-            newOrder.save()
-
+                newOrder = backetForm()
+                newOrder.user = User.objects.get(pk=user_id)
+                newOrder.product = products.objects.get(pk=product_id)
+                newOrder.quantity = 1
+                newOrder.save()
+                
+        elif operation == "update":
+            functions.updateBacket(self, request)
+            
         return HttpResponse(200)
-
-
-class updateBacket(View):
-
-    def post(self, request):
-        user_id = request.session['user_id']
-        product_id = request.POST.get('productId')
-        quantity = request.POST.get('quantity')
-
-        backetStorage = backet.objects.filter(
-            user_id=user_id, product_id=product_id)
-
-        if backetStorage.count() > 0:
-            backetStorage.update(quantity=F('quantity') + quantity)
-            result = True
-        else:
-            result = False
-
-        print(request.POST.get('update'))
-
-        if request.POST.get('update'):
-            return HttpResponse(200)
-        else:
-            return result
-
-
+    
+    def delete(self, request):
+        
+        return HttpResponse(200)
 class productMore(View):
 
     def get(self, request):

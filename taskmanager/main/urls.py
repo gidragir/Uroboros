@@ -7,8 +7,7 @@ urlpatterns = [
     path('registration', views.registration, name='registration'),
     path('authorization', views.authorization, name='authorization'),
     path('backet', views.backetOfUser, name='backet'),
-    path('addBacket', ajax.addBacket.as_view(), name='addBacket'),
-    path('updateBacket', ajax.updateBacket.as_view(), name='updateBacket'),
+    path('backetOperation', ajax.backetOperation.as_view(), name='backetOperation'),
     path('productMore', ajax.productMore.as_view(), name='productMore'),
     path('sellProduct', views.sellProduct, name='sellProduct')
 ]

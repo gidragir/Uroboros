@@ -23,7 +23,7 @@ def index(request):
         del request.session['user_name']
 
     if request.POST.get('productId'):
-        addBacket(request)
+        backetOperation().post(request)
 
     sessionData = functions.requestSerialization(request.session)
 
@@ -35,7 +35,6 @@ def index(request):
 
     return render(request, 'main/index.html', sessionData)
 
-
 def about(request):
     if request.GET.get('delete'):
         del request.session['user_id']
@@ -46,7 +45,6 @@ def about(request):
     sessionData['authoForm'] = Form
 
     return render(request, 'main/about.html', sessionData)
-
 
 def registration(request):
 
@@ -65,7 +63,6 @@ def registration(request):
 
     sessionData['regForm'] = Form
     return render(request, 'main/registration.html', sessionData)
-
 
 def authorization(request):
     sessionData = functions.requestSerialization(request.session)
@@ -97,7 +94,6 @@ def authorization(request):
     Form = authoForm()
     sessionData['authoForm'] = Form
     return render(request, 'main/authorization.html', sessionData)
-
 
 def backetOfUser(request):
 

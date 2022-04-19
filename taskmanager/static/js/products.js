@@ -51,11 +51,12 @@ function addToBacket(btn) {
 
   $.ajax({
     type: "POST",
-    url: urls['URL_addBacket'],
+    url: urls['URL_backetOperation'],
     data: {
       "productId": productId,
       "quantity": quantity,
-      "csrfmiddlewaretoken": token
+      "csrfmiddlewaretoken": token,
+      "operation": "add"
     },
     success: function (data) {
 
