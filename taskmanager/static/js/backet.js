@@ -67,25 +67,21 @@ function deleteBacket(btn) {
 }
 
 function makeOrder() {
-  let elements = document.querySelectorAll('input[name=backet_id]');
+  var user_id = document.getElementById('user_id').value;
 
   var mass = [];
-
-  for (let elem of elements) {
-    mass.push(elem.value);
-  }
 
   $.ajax({
 
     url: urls['URL_backetOperation'],
     type: "POST",
     data: {
-      "backet_ids": mass,
+      "user_id": user_id,
       "csrfmiddlewaretoken": token,
       "operation": "makeOrder"
     },
     success: function () {
-      location.reload();
+      
     }
   });
 

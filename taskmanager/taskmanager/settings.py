@@ -156,8 +156,7 @@ COMPRESS_JS_FILTERS = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost',
-    'http://127.0.0.1:81',
-    'http://127.0.0.1:8000',
+    'http://127.0.0.1:3306',
 ]
 
 CORS_ALLOW_METHODS = [

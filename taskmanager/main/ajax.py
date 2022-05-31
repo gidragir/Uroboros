@@ -12,7 +12,7 @@ class backetOperation(View):
         operation = request.POST.get('operation')
 
         if operation == "add":
-            if not functions.updateBacket(self, request):
+            if not functions.updateBacket(request):
                 user_id = int(request.session['user_id'])
                 product_id = request.POST.get('productId')
 
